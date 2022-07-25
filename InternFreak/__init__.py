@@ -1,4 +1,5 @@
 import asyncio
+import os
 from pyrogram import Client, filters
 import glob
 from os.path import dirname, basename, isfile, join
@@ -10,9 +11,9 @@ loop = asyncio.get_event_loop()
 
 bot = Client(
     "InternFreak",
-    api_id=14313036,
-    api_hash="a510f6536294df0dfa5f8f18b797b11f",
-    bot_token="5481966629:AAEvGusEJDr9qyyLLlxfeXyFH6g0GFhA_sY"
+    api_id=int(os.environ.get("API_ID")),
+    api_hash=os.environ.get("API_HASH"),
+    bot_token=os.environ.get("BOT_TOKEN")
 )
 
 files = glob.glob(join(join(dirname(__file__), 'Plugins'), '*py'))
