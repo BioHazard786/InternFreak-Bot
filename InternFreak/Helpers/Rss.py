@@ -37,6 +37,7 @@ async def upload_posts():
     posts = jsload("Intern.json")
     for title, content in posts.items():
         if await loop.run_in_executor(executor, lambda: check(content["link"])):
+            print("title")
             post = await bot.send_photo(
                 chat_id=CHANNEL,
                 photo=content["thumbnail"].replace(" ", "%20"),
@@ -76,6 +77,6 @@ save_post = AsyncIOScheduler()
 save_post.add_job(save_posts, 'interval', minutes=1)
 save_post.start()
 
-download = AsyncIOScheduler()
-download.add_job(upload_posts, 'interval', minutes=3)
-download.start()
+upload_post = AsyncIOScheduler()
+upload_post.add_job(upload_posts, 'interval', minutes=2)
+upload_post.start()

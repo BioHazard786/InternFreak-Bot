@@ -7,7 +7,10 @@ SUBS = deta.Base("SUBSCRIBERS")
 
 def check(_key):
     result = POSTS.get(_key)
-    return result
+    if not result:
+        return True
+    else:
+        return False
 
 
 def publish(_key, title, msg_id):
