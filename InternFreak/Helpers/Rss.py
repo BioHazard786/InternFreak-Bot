@@ -8,7 +8,7 @@ CAPTION = """
 
 <b>{offer}</b> - <code>{date}</code>
 
-<b>Post Link</b> - <code>[link]({link})</code>
+<b>Post Link</b> - [link]({link})
 """
 
 COMPANIES = ["google", "microsoft", "amazon",
