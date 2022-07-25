@@ -73,7 +73,7 @@ async def upload_posts():
                 await bot.pin_chat_message(chat_id=CODING_GROUP, message_id=info.id)
 
 save_post = AsyncIOScheduler()
-save_post.add_job(save_posts, 'interval', minutes=3)
+save_post.add_job(save_posts, 'interval', minutes=1)
 save_post.start()
 
 download = AsyncIOScheduler()
