@@ -9,6 +9,5 @@ import json
 import asyncio
 import requests
 from bs4 import BeautifulSoup
-from ..Helpers.FetchPosts import fetch_posts
 from ..Database.Deta import *
 executor = ThreadPoolExecutor(1)

@@ -1,4 +1,5 @@
 from .__init__ import *
+from ..Helpers.FetchPosts import fetch_posts
 
 CAPTION = """
 <b>{title}</b>
