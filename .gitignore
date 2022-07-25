@@ -1,0 +1,9 @@
+*__pycache__*
+*.session*
+*.vscode*
+*env 
+./*.py
+test.py
+test2.py
+testdb.py
+test.session
