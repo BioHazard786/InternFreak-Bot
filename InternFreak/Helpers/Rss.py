@@ -37,7 +37,6 @@ async def upload_posts():
     posts = jsload("Intern.json")
     for title, content in posts.items():
         if await loop.run_in_executor(executor, lambda: check(content["link"])):
-            print("title")
             post = await bot.send_photo(
                 chat_id=CHANNEL,
                 photo=content["thumbnail"].replace(" ", "%20"),
@@ -54,7 +53,6 @@ async def upload_posts():
                 sticker="CAACAgUAAx0CSVhoDAABFM_aYk01ZlDsdO_9BtdfYyLaKwI0QJ4AAjsAA0NzyRIuGBJU0KTNKyME"
             )
             await loop.run_in_executor(executor, lambda: publish(content["link"], title, str(post.id)))
-            result = await loop.run_in_executor(executor, lambda: fetchIds())
             button = [
                 [
                     InlineKeyboardButton(
@@ -62,6 +60,9 @@ async def upload_posts():
                 ]
             ]
             markup = InlineKeyboardMarkup(inline_keyboard=button)
+            info = await bot.copy_message(chat_id=CODING_GROUP, from_chat_id=CHANNEL, message_id=post.id, reply_markup=markup)
+            await bot.pin_chat_message(chat_id=CODING_GROUP, message_id=info.id)
+            result = await loop.run_in_executor(executor, lambda: fetchIds())
             for users in result:
                 try:
                     await bot.copy_message(chat_id=int(
@@ -69,9 +70,7 @@ async def upload_posts():
                 except FloodWait as e:
                     await asyncio.sleep(e.x)
 
-            if any(word in title.lower() for word in COMPANIES):
-                info = await bot.copy_message(chat_id=CODING_GROUP, from_chat_id=CHANNEL, message_id=post.id, reply_markup=markup)
-                await bot.pin_chat_message(chat_id=CODING_GROUP, message_id=info.id)
+            await asyncio.sleep(3)
 
 save_post = AsyncIOScheduler()
 save_post.add_job(save_posts, 'interval', minutes=1)
