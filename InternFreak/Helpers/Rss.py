@@ -11,8 +11,6 @@ CAPTION = """
 <b>Post Link</b> - [link]({link})
 """
 
-COMPANIES = ["google", "microsoft", "amazon",
-             "flipkart", "apple", "samsung", "facebook"]
 CHANNEL = -1001504019946
 CODING_GROUP = -1001419259815
 
