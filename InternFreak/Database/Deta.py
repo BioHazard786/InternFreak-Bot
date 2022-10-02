@@ -8,10 +8,8 @@ SUBS = deta.Base("SUBSCRIBERS")
 
 def check(_key):
     result = POSTS.get(_key)
-    if not result:
-        return True
-    else:
-        return False
+    if not result: return True
+    else: return False
 
 
 def publish(_key, title, msg_id):
@@ -25,8 +23,7 @@ def publish(_key, title, msg_id):
 
 def checkSubs(user_id):
     sub_feeds = SUBS.get(user_id)
-    if sub_feeds:
-        return False
+    if sub_feeds: return False
     else:
         doc = {
             'key': user_id,
