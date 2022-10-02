@@ -13,5 +13,5 @@ MSG = """
 
 
 @bot.on_message(filters.command(['about', 'about@internfreakbot']))
-async def about(app, message):
-    await app.send_message(message.chat.id, MSG, disable_web_page_preview=True)
+async def about(_, message):
+    await message.reply_text(MSG, disable_web_page_preview=True)
