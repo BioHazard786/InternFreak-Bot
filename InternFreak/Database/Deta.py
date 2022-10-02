@@ -1,6 +1,7 @@
 from deta import Deta
+import os
 
-deta = Deta("a0b7v65c_xCRFe17CEtojfRQChXAEMP7eyAhtqVod")
+deta = Deta(os.environ.get("DETA"))
 POSTS = deta.Base("POSTS")
 SUBS = deta.Base("SUBSCRIBERS")
 
