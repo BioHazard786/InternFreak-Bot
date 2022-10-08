@@ -1,4 +1,5 @@
 from .__init__ import *
+from ..Helpers.FetchInfo import fetch_info
 
 
 def fetch_posts():
@@ -15,35 +16,21 @@ def fetch_posts():
             except:
                 title = "N/A"
             try:
-                batch = post.find("p").getText()
-            except:
-                batch = "N/A"
-            try:
-                offer = post.find("a", class_="category").getText()
-            except:
-                offer = "N/A"
-            try:
                 date = post.find("span", class_="date").getText()
             except:
                 date = "N/A"
-            try:
-                thumbnail = "https://internfreak.co/" + \
-                    post.find("img", class_="img-fluid")["src"]
-            except:
-                thumbnail = "Assets/error.jpg"
             try:
                 link = "https://internfreak.co/" + \
                     post.find("h2", class_="heading").findChildren()[0]["href"]
             except:
                 link = "https://internfreak.co/"
 
-            post_info[title] = {
-                "batch": batch,
-                "offer": offer,
-                "date": date,
-                "thumbnail": thumbnail,
-                "link": link,
-            }
+            info = fetch_info(link, date)
+            if info:
+                post_info[title] = info
+            else:
+                continue
+
         return post_info
     else:
         return False
