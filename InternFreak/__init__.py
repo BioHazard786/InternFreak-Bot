@@ -1,9 +1,9 @@
 import asyncio
-import os
-import config
-from pyrogram import Client, filters
 import glob
 from os.path import dirname, basename, isfile, join
+import config
+from pyrogram.client import Client
+from pyrogram import filters
 from importlib import import_module
 
 __all__ = ['bot', 'loop']
