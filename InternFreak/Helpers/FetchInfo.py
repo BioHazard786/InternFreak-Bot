@@ -14,7 +14,6 @@ def fetch_info(url, date) -> dict:
         post_info["Date"] = date
 
         description = info.select_one("p")
-        post_info["Description"] = description.text.strip()
         description.extract()
 
         designation_key = info.select_one("h5")
@@ -41,8 +40,6 @@ def fetch_info(url, date) -> dict:
         important_key = info.select_one("strong")
         important_key.extract()
         important = info.select_one("p")
-        post_info[important_key.text.split(
-            ":")[0].strip()] = important.text.replace("\n", "").strip()
         important.extract()
 
         location_key = info.select_one("h5")
@@ -52,13 +49,10 @@ def fetch_info(url, date) -> dict:
         location.extract()
         location_key.extract()
 
-        extra_key = info.select_one("h5")
-        extra = info.select("p")
-        post_info[extra_key.text.split(
-            ":")[0].strip()] = [info.text.strip() for info in extra]
-
         apply_link = info.select_one("a#applylink").get("href")
         post_info["Apply"] = apply_link
+
+        post_info["Link"] = url
 
         return post_info
 

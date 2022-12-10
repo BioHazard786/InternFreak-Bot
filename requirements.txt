@@ -4,3 +4,4 @@ TgCrypto
 Deta
 bs4
 requests
+python-dotenv

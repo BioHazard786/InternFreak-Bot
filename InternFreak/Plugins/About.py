@@ -6,7 +6,7 @@ MSG = """
 <b>● Channel : [InternFreak Posts](https://t.me/internfreakposts)</b>
 <b>● Language : [Python](https://www.python.org/)</b>
 <b>● Library : [Pyrogram](https://docs.pyrogram.org/)</b>
-<b>● Server : [Heroku](https://heroku.com/)</b>
+<b>● Server : [Koyeb](https://app.koyeb.com/)</b>
 <b>● Database : [Deta](https://deta.sh/)</b>
 <b>● Credit : Everyone in this Journey</b>
 """

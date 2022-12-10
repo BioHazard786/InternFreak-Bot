@@ -1,30 +1,6 @@
 from .__init__ import *
 from ..Helpers.FetchPosts import fetch_posts
-from ...InternFreak import config
-
-CAPTION = """
-<b>{title}</b>
-
-<b>{date_key}</b> - <code>{date}</code>
-
-<b>{description_key}</b> - <code>{description}</code>
-
-<b>{deignation_key}</b> - <code>{deignation}</code>
-
-<b>{batch_key}</b> - <code>{batch}</code>
-
-<b>{salary_key}</b> - <code>{salary}</code>
-
-<b>{important_key}</b> - <code>{important}</code>
-
-<b>{location_key}</b> - <code>{location}</code>
-
-<b>{extra_key}</b> - <code>{extra}</code>
-"""
-
-
-CHANNEL = config.CHANNEL
-CODING_GROUP = config.CODING_GROUP
+from InternFreak.config import CHANNEL, CODING_GROUP
 
 def jsload(file):
     with open(file, 'r') as js:
@@ -44,34 +20,56 @@ async def save_posts():
 
 async def upload_posts():
     posts = jsload("Intern.json")
+    result = await loop.run_in_executor(executor, lambda: fetchIds())
     for title, content in posts.items():
-        if await loop.run_in_executor(executor, lambda: check(content["link"])):
-            post = await bot.send_photo(
-                chat_id=CHANNEL,
-                photo=content["thumbnail"].replace(" ", "%20"),
-                caption=CAPTION.format(
-                    title=title,
-                    batch=content["batch"],
-                    offer=content["offer"],
-                    date=content["date"],
-                    link=content["link"]
+        CAPTION = ''
+        if await loop.run_in_executor(executor, lambda: check(content["Link"])):
+            CAPTION += f'<b>{title}</b>\n\n'
+            for key, value in content.items():
+                if key == 'Thumbnail' or key == 'Apply' or key == 'Link':
+                    continue
+                if isinstance(value, list):
+                    KEY_POINTS = ''
+                    for item in value:
+                        KEY_POINTS += f'<code>{item}</code>\n'
+                    CAPTION += f'<b>{key}</b> - {KEY_POINTS}\n\n'
+                else:
+                    CAPTION += f'<b>{key}</b> - <code>{value}</code>\n\n'
+            button = [
+                [
+                    InlineKeyboardButton(
+                        text="Apply", url=content["Apply"]),
+                    InlineKeyboardButton(
+                        text="Post Link", url=content["Link"]),
+                ]
+            ]
+            markup = InlineKeyboardMarkup(inline_keyboard=button)
+            try:
+                post = await bot.send_photo(
+                    chat_id=CHANNEL,
+                    photo=content["Thumbnail"].replace(" ", "%20"),
+                    caption=CAPTION,
+                    reply_markup=markup,
                 )
-            )
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+
+            except MediaCaptionTooLong:
+                post = await bot.send_photo(
+                    chat_id=CHANNEL,
+                    photo=content["Thumbnail"].replace(" ", "%20"),
+                    reply_markup=markup,
+                )
+            except:
+                continue
+
             await bot.send_sticker(
                 chat_id=CHANNEL,
                 sticker="CAACAgUAAx0CSVhoDAABFM_aYk01ZlDsdO_9BtdfYyLaKwI0QJ4AAjsAA0NzyRIuGBJU0KTNKyME"
             )
-            await loop.run_in_executor(executor, lambda: publish(content["link"], title, str(post.id)))
-            button = [
-                [
-                    InlineKeyboardButton(
-                        text="Join Channel", url="https://t.me/internfreakposts"),
-                ]
-            ]
-            markup = InlineKeyboardMarkup(inline_keyboard=button)
+            await loop.run_in_executor(executor, lambda: publish(content["Link"], title, str(post.id)))
             info = await bot.copy_message(chat_id=CODING_GROUP, from_chat_id=CHANNEL, message_id=post.id, reply_markup=markup)
             await bot.pin_chat_message(chat_id=CODING_GROUP, message_id=info.id)
-            result = await loop.run_in_executor(executor, lambda: fetchIds())
             for users in result:
                 try:
                     await bot.copy_message(chat_id=int(

@@ -1,7 +1,7 @@
 from deta import Deta
-import os
+from InternFreak.config import DETA
 
-deta = Deta(os.environ.get("DETA"))
+deta = Deta(DETA)
 POSTS = deta.Base("POSTS")
 SUBS = deta.Base("SUBSCRIBERS")
 
