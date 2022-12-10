@@ -1,6 +1,5 @@
 *__pycache__*
 *.session*
 *.vscode*
-*env 
-./*.py
-test.py
+*.env*
+*.py*
