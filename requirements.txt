@@ -5,3 +5,5 @@ Deta
 bs4
 requests
 python-dotenv
+flask
+gunicorn

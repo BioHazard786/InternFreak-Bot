@@ -1,6 +1,9 @@
 from os import getenv
 from dotenv import load_dotenv
-load_dotenv("config.env")
+try:
+    load_dotenv("config.env")
+except:
+    pass
 
 
 BOT_TOKEN = getenv("BOT_TOKEN")
